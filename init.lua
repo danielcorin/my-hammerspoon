@@ -1,14 +1,15 @@
 -- Config
 hs.window.animationDuration = 0
 require('sizeup')
-local CTRL = "ctrl"
-local ALT = "alt"
-local CMD = "cmd"
+local CTRL = "⌃"
+local ALT = "⌥"
+local CMD = "⌘"
+local SHIFT = "⇧"
 local all = {CTRL, ALT, CMD}
 local right_2 = {ALT, CMD}
 local left_2 = {CTRL, ALT}
 local split = {CTRL, CMD}
-local hyper = {"⌘", "⌥", "⌃", "⇧"}
+local hyper = {CMD, ALT, CTRL, SHIFT}
 
 
 -- Replace Caffeine.app with 18 lines of Lua :D
@@ -59,9 +60,9 @@ function toggle_application(_app)
 end
 
 -- Application hotkeys
-hs.hotkey.bind(all, 't', function() toggle_application("Terminal") end)
-hs.hotkey.bind(all, 'b', function() toggle_application("Google Chrome") end)
-hs.hotkey.bind(all, 's', function() toggle_application("Sublime Text") end)
+hs.hotkey.bind({CMD}, '1', function() toggle_application("Terminal") end)
+hs.hotkey.bind({CMD}, '2', function() toggle_application("Sublime Text") end)
+hs.hotkey.bind({CMD}, '3', function() toggle_application("Google Chrome") end)
 
 
 function mouseHighlight()
