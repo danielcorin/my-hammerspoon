@@ -42,7 +42,8 @@ end)
 function toggle_application(_app)
     local app = hs.appfinder.appFromName(_app)
     if not app then
-        -- FIXME: This should really launch _app
+        -- this seems to be unstable for Firefox
+        hs.application.launchOrFocus(_app)
         return
     end
     local mainwin = app:mainWindow()
@@ -62,9 +63,49 @@ hs.hotkey.bind(all, 't', function() toggle_application("Terminal") end)
 hs.hotkey.bind(all, 'b', function() toggle_application("Google Chrome") end)
 hs.hotkey.bind(all, 's', function() toggle_application("Sublime Text") end)
 
+
+function mouseHighlight()
+  if mouseCircle then
+    mouseCircle:delete()
+    if mouseCircleTimer then
+      mouseCircleTimer:stop()
+    end
+  end
+  mousepoint = hs.mouse.getAbsolutePosition()
+  mouseCircle = hs.drawing.circle(hs.geometry.rect(mousepoint.x-40, mousepoint.y-40, 80, 80))
+  mouseCircle:setStrokeColor({["red"]=1,["blue"]=0,["green"]=0,["alpha"]=1})
+  mouseCircle:setFill(false)
+  mouseCircle:setStrokeWidth(3)
+  mouseCircle:bringToFront(true)
+  mouseCircle:show()
+
+  mouseCircleTimer = hs.timer.doAfter(1, function() mouseCircle:delete() end)
+end
+
+hs.hotkey.bind(all, "'", function() mouseHighlight() end)
+
+
+function usbDeviceCallback(data)
+  print("usbDeviceCallback: "..hs.inspect(data))
+  -- if data.eventType == "added" then
+  --   keys = hs.eventtap.checkKeyboardModifiers()
+  --   if not keys.shift then
+  --     hs.caffeinate.lockScreen()
+  --   end
+  -- end
+end
+
+usbWatcher = hs.usb.watcher.new(usbDeviceCallback)
+usbWatcher:start()
+
 -- Show config
 hs.hotkey.bind(all, 'E', function ()
   io.popen('open ~/.hammerspoon/init.lua')
+end)
+
+-- Screensaver
+hs.hotkey.bind(all, '\\', function ()
+  io.popen('open /System/Library/Frameworks/ScreenSaver.framework/Versions/Current/Resources/ScreenSaverEngine.app/')
 end)
 
 -- Config reload

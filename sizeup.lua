@@ -28,6 +28,27 @@ hs.hotkey.bind({"ctrl","alt","cmd"}, "Down", function()
   sizeup.send_window_down()
 end)
 
+
+--- Split Screen Actions ---
+-- Send Window Left
+hs.hotkey.bind({"ctrl", "cmd"}, "Left", function()
+  sizeup.send_window_two_thirds_left()
+end)
+-- Send Window Right
+hs.hotkey.bind({"ctrl", "cmd"}, "Right", function()
+  sizeup.send_window_two_thirds_right()
+end)
+-- Send Window Up
+hs.hotkey.bind({"ctrl", "cmd"}, "Up", function()
+  sizeup.send_window_two_thirds_up()
+end)
+-- Send Window Down
+hs.hotkey.bind({"ctrl", "cmd"}, "Down", function()
+  sizeup.send_window_two_thirds_down()
+end)
+
+
+
 --- Quarter Screen Actions ---
 -- Send Window Upper Left
 hs.hotkey.bind({"ctrl", "alt", "shift"}, "Left", function()
@@ -104,6 +125,10 @@ sizeup.quarter_screen_partitions = {
   x = 0.5, -- %
   y = 0.5
 }
+sizeup.two_thirds_screen_partitions = {
+  x = 0.60, -- %
+  y = 0.60
+}
 
 
 ----------------
@@ -157,6 +182,60 @@ function sizeup.send_window_down()
     h = (s.h * (1 - ssp.y)) - g.y
   })
 end
+
+
+
+
+function sizeup.send_window_two_thirds_left()
+  local s = sizeup.screen()
+  local ttsp = sizeup.two_thirds_screen_partitions
+  local g = sizeup.gutter()
+  sizeup.set_frame("Two Thirds Left", {
+    x = s.x,
+    y = s.y,
+    w = (s.w * ttsp.x) - sizeup.gutter().x,
+    h = s.h
+  })
+end
+
+function sizeup.send_window_two_thirds_right()
+  local s = sizeup.screen()
+  local ttsp = sizeup.two_thirds_screen_partitions
+  local g = sizeup.gutter()
+  sizeup.set_frame("Two Thirds Right", {
+    x = s.x + (s.w * ttsp.x) + g.x,
+    y = s.y,
+    w = (s.w * (1 - ttsp.x)) - g.x,
+    h = s.h
+  })
+end
+
+function sizeup.send_window_two_thirds_up()
+  local s = sizeup.screen()
+  local ttsp = sizeup.two_thirds_screen_partitions
+  local g = sizeup.gutter()
+  sizeup.set_frame("Two Thirds Up", {
+    x = s.x,
+    y = s.y,
+    w = s.w,
+    h = (s.h * ttsp.y) - g.y
+  })
+end
+
+function sizeup.send_window_two_thirds_down()
+  local s = sizeup.screen()
+  local ttsp = sizeup.two_thirds_screen_partitions
+  local g = sizeup.gutter()
+  sizeup.set_frame("Two Thirds Down", {
+    x = s.x,
+    y = s.y + (s.h * ttsp.y) + g.y,
+    w = s.w,
+    h = (s.h * (1 - ttsp.y)) - g.y
+  })
+end
+
+
+
 
 function sizeup.send_window_upper_left()
   local s = sizeup.screen()
