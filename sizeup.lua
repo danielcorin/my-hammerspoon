@@ -31,21 +31,21 @@ end)
 
 --- Split Screen Actions ---
 -- Send Window Left
-hs.hotkey.bind({"ctrl", "cmd"}, "Left", function()
-  sizeup.send_window_two_thirds_left()
-end)
--- Send Window Right
-hs.hotkey.bind({"ctrl", "cmd"}, "Right", function()
-  sizeup.send_window_two_thirds_right()
-end)
--- Send Window Up
-hs.hotkey.bind({"ctrl", "cmd"}, "Up", function()
-  sizeup.send_window_two_thirds_up()
-end)
--- Send Window Down
-hs.hotkey.bind({"ctrl", "cmd"}, "Down", function()
-  sizeup.send_window_two_thirds_down()
-end)
+-- hs.hotkey.bind({"ctrl", "cmd"}, "Left", function()
+--   sizeup.send_window_two_thirds_left()
+-- end)
+-- -- Send Window Right
+-- hs.hotkey.bind({"ctrl", "cmd"}, "Right", function()
+--   sizeup.send_window_two_thirds_right()
+-- end)
+-- -- Send Window Up
+-- hs.hotkey.bind({"ctrl", "cmd"}, "Up", function()
+--   sizeup.send_window_two_thirds_up()
+-- end)
+-- -- Send Window Down
+-- hs.hotkey.bind({"ctrl", "cmd"}, "Down", function()
+--   sizeup.send_window_two_thirds_down()
+-- end)
 
 
 
