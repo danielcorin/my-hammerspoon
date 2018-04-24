@@ -11,6 +11,8 @@ local left_2 = {CTRL, ALT}
 local split = {CTRL, CMD}
 local hyper = {CMD, ALT, CTRL, SHIFT}
 
+dofile("anycomplete.lua")
+
 -- Config reload
 function reloadConfig(files)
     -- Kill wifi watcher
@@ -60,22 +62,20 @@ end
 hs.hotkey.bind(all, 'C', function ()
 	caffeineClicked()
 end)
+caffeineClicked()
 
-
--------------------------------------------------------------------------------------
--- Network connection and disconnection
--------------------------------------------------------------------------------------
-local wifiWatcher = nil
-function ssidChangedCallback()
-    newSSID = hs.wifi.currentNetwork()
-    if newSSID then
-      hs.alert.show("Network connected: " .. newSSID)
-    else
-      hs.alert.show("Network lost")
-    end
+function mute_audio(seconds)
+	hs.alert.show('Muting temporarily')
+	audio = hs.audiodevice.defaultOutputDevice()
+	audio:setMuted(true)
+	hs.timer.doAfter(seconds, function()
+		audio:setMuted(false)
+	end)
 end
-wifiWatcher = hs.wifi.watcher.new(ssidChangedCallback)
-wifiWatcher:start()
+
+hs.hotkey.bind(split, 'M', function ()
+	mute_audio(60)
+end)
 
 
 -- Toggle an application between being the frontmost app, and being hidden
@@ -99,13 +99,17 @@ function toggle_application(_app)
 end
 
 -- Application hotkeys
-hs.hotkey.bind(all, 't', function() toggle_application("Terminal") end)
-hs.hotkey.bind(all, 'i', function() toggle_application("Sublime Text") end)
-hs.hotkey.bind(all, 'o', function() toggle_application("Google Chrome") end)
-hs.hotkey.bind(all, '0', function() toggle_application("HipChat") end)
-hs.hotkey.bind(all, 'r', function() toggle_application("Radiant Player") end)
-hs.hotkey.bind(all, 'p', function() toggle_application("Mail") end)
-hs.hotkey.bind(all, '=', function() toggle_application("FromScratch") end)
+hs.hotkey.bind(hyper, 'i', function() toggle_application("Sublime Text") end)
+hs.hotkey.bind(hyper, 'o', function() toggle_application("Google Chrome") end)
+hs.hotkey.bind(hyper, '0', function() toggle_application("uChat") end)
+hs.hotkey.bind(hyper, '-', function() toggle_application("Whatsapp") end)
+hs.hotkey.bind(hyper, 'r', function() toggle_application("Spotify") end)
+hs.hotkey.bind(hyper, 'e', function() toggle_application("Soundcloud") end)
+hs.hotkey.bind(hyper, 'p', function() toggle_application("Spark") end)
+hs.hotkey.bind(hyper, '=', function() toggle_application("FromScratch") end)
+hs.hotkey.bind(hyper, 'j', function() toggle_application("Marta") end)
+hs.hotkey.bind(hyper, 'z', function() toggle_application("zoom.us") end)
+hs.hotkey.bind(hyper, 'c', function() toggle_application("Calendar") end)
 
 function mouseHighlight()
   if mouseCircle then
@@ -125,20 +129,92 @@ function mouseHighlight()
   mouseCircleTimer = hs.timer.doAfter(1, function() mouseCircle:delete() end)
 end
 
+
+-------------
+--- Timer ---
+-------------
+
+-- local timerLength = 1200  -- 20 minutes
+-- local timerBar = hs.menubar.new()
+
+-- local secondsLeft = timerLength
+
+
+-- function updateTimer()
+--   local timeMin = math.floor( (secondsLeft / 60))
+--   local timeSec = secondsLeft - (timeMin * 60)
+--   local str = string.format("%02d", timeMin)
+--   setMenu(timerBar, timeMin, timeSec)
+--   hs.printf(str)
+--   if secondsLeft == 0 then
+--     hs.notify.new({
+--         title="Take a break",
+--         informativeText="20 minutes have passed",
+--         alwaysPresent=true
+--     }):send()
+--     hs.alert(" Timer over ")
+--   end
+--   timerBar:setTitle(str)
+-- end
+
+-- function decrementTimer()
+--   secondsLeft = secondsLeft - 1
+--   updateTimer()
+-- end
+
+
+-- function startTimer()
+--   if secondsLeft == 0 then
+--     secondsLeft = timerLength
+--   end
+--   updateTimer()
+--   hs.alert(" Timer started ")
+--   hs.timer.doWhile(
+--     function()
+--       return secondsLeft > 0
+--     end,
+--     decrementTimer,
+--     1
+--   )
+-- end
+
+-- function resetTimer()
+--   secondsLeft = 0
+--   updateTimer()
+-- end
+
+-- function setMenu(timerBar, timeMin, timeSec)
+--   timerBar:setMenu({
+--     {
+--       title = string.format("Time remaining: %02d:%02d", timeMin, timeSec),
+--       disabled = true
+--     },
+--     {
+--       title = "Start timer",
+--       fn = startTimer
+--     },
+--     {
+--       title = "Reset timer",
+--       fn = resetTimer
+--     }
+--   })
+-- end
+
+-- updateTimer()
+
+
+-- hs.hotkey.bind(all, 't', function ()
+--   startTimer()
+-- end)
+
+-- hs.hotkey.bind(all, 'y', function ()
+--   resetTimer()
+-- end)
+
+
 hs.hotkey.bind(all, "'", function() mouseHighlight() end)
 
 -- Show config
-hs.hotkey.bind(all, 'E', function ()
+hs.hotkey.bind(all, 'e', function ()
   io.popen('open ~/.hammerspoon/init.lua')
-end)
-
-
-hs.hotkey.bind(all, 'w', function ()
-  hs.alert.show("WiFi Reset")
-  io.popen('wf -d 1')
-end)
-
--- Screensaver
-hs.hotkey.bind(all, '\\', function ()
-  io.popen('open /System/Library/Frameworks/ScreenSaver.framework/Versions/Current/Resources/ScreenSaverEngine.app/')
 end)
