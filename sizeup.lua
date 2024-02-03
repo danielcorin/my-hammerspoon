@@ -348,7 +348,7 @@ end
 -- Internal API --
 ------------------
 
--- SizeUp uses no animations 
+-- SizeUp uses no animations
 hs.window.animation_duration = 0.0
 -- Initialize Snapback state
 sizeup.snapback_window_state = { }

@@ -101,18 +101,10 @@ end
 -- Application hotkeys
 hs.hotkey.bind(hyper, 'i', function() toggle_application("Sublime Text") end)
 hs.hotkey.bind(hyper, 'o', function() toggle_application("Google Chrome") end)
-hs.hotkey.bind(hyper, '0', function() toggle_application("uChat") end)
-hs.hotkey.bind(hyper, '2', function() toggle_application("uChat") end)
-hs.hotkey.bind(hyper, '3', function() toggle_application("Slack") end)
+hs.hotkey.bind(hyper, '2', function() toggle_application("Messages") end)
 hs.hotkey.bind(hyper, '-', function() toggle_application("Whatsapp") end)
 hs.hotkey.bind(hyper, 'r', function() toggle_application("Spotify") end)
-hs.hotkey.bind(hyper, 'e', function() toggle_application("Soundcloud") end)
--- hs.hotkey.bind(hyper, 'p', function() toggle_application("Spark") end)
-hs.hotkey.bind(hyper, 'p', function() toggle_application("Kiwi for Gmail") end)
-hs.hotkey.bind(hyper, '=', function() toggle_application("FromScratch") end)
-hs.hotkey.bind(hyper, 'j', function() toggle_application("Marta") end)
 hs.hotkey.bind(hyper, 'z', function() toggle_application("zoom.us") end)
-hs.hotkey.bind(hyper, 'c', function() toggle_application("Calendar") end)
 
 function mouseHighlight()
   if mouseCircle then
